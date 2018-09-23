@@ -1,0 +1,22 @@
+{
+  "name": "cylinders",
+  "version": "1.0.0",
+  "description": "Cylinders and other \"nice\" things",
+  "main": "index.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/GolddolphinSKB-Fexcraftian/cylinders.js.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/GolddolphinSKB-Fexcraftian/cylinders.js/issues"
+  },
+  "homepage": "https://github.com/GolddolphinSKB-Fexcraftian/cylinders.js#readme",
+  "dependencies": {
+    "http-server": "^0.11.1"
+  },
+  "scripts": {
+    "start": "http-server -p 3000"
+  }
+}

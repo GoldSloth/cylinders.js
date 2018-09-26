@@ -25,33 +25,43 @@ light.position.set(0, 0, 15)
 
 scene.add(light)
 
-var p0 = new THREE.Vector3(5, 5, 5)
+var p0 = new THREE.Vector3(3, 3, 3)
 
 var p1 = new THREE.Vector3(10, 10, 10)
 
-var PRand = new THREE.Vector3(Math.random(), Math.random(), Math.random()) 
-PRand.addScalar(1)
-PRand.add(p0)
+var PRand = new THREE.Vector3(3, 500, 2)
+
+var subpRandp0 = new THREE.Vector3(0, 0, 0)
+
+subpRandp0.subVectors(PRand, p0)
+
+var subp1p0 = new THREE.Vector3(0, 0, 0)
+
+subp1p0.subVectors(p1, p0)
 
 var R = new THREE.Vector3()
-R.crossVectors(new THREE.Vector3().subVectors(PRand, p0), new THREE.Vector3().subVectors(p1, p0))
+R.crossVectors(subpRandp0, subp1p0)
+
+R.normalize()
 
 var S = new THREE.Vector3()
-R.crossVectors(R, new THREE.Vector3().subVectors(p1, p0))
+S.crossVectors(R, new THREE.Vector3().subVectors(p1, p0))
 
-var divisions = 6
+S.normalize()
+
+var divisions = 60
 var theta = 360/divisions
 
-theta = (Math.PI / 180) * theta
-
-var radius = 2
+var radius = 4
 
 var points = [p0]
 
 var iTheta = 0
 
 for (var i=0; i<divisions; i++) {
-    iTheta = theta * i
+    iTheta = theta * i * (Math.PI / 180)
+    console.log(theta*i)
+    console.log(iTheta)
     points.push(new THREE.Vector3(
         p0.x + (radius * Math.cos(iTheta) * R.x) + (radius * Math.sin(iTheta) * S.x),
         p0.y + (radius * Math.cos(iTheta) * R.y) + (radius * Math.sin(iTheta) * S.y),

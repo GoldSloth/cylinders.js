@@ -1,17 +1,13 @@
 var scene = new THREE.Scene()
 var camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.01, 5000)
 
-var controls = new THREE.OrbitControls( camera );
+var controls = new THREE.OrbitControls(camera);
 
 var renderer = new THREE.WebGLRenderer()
 
-renderer.setSize( window.innerWidth, window.innerHeight )
+renderer.setSize(window.innerWidth, window.innerHeight)
 
-// renderer.setClearColor(0x000000, 1)
-
-// scene.overrideMaterial = new THREE.MeshDepthMaterial()
-
-document.body.appendChild( renderer.domElement )
+document.body.appendChild(renderer.domElement)
 
 camera.position.set( 0, 20, 100 );
 controls.update();
@@ -25,73 +21,68 @@ light.position.set(0, 0, 15)
 
 scene.add(light)
 
-var p0 = new THREE.Vector3(3, 3, 3)
+// var p0 = new THREE.Vector3(3, 3, 3)
 
-var p1 = new THREE.Vector3(10, 10, 10)
+// var p1 = new THREE.Vector3(10, 10, 10)
 
-var PRand = new THREE.Vector3(3, 500, 2)
 
-var subpRandp0 = new THREE.Vector3(0, 0, 0)
 
-subpRandp0.subVectors(PRand, p0)
+// var subpRandp0 = new THREE.Vector3(0, 0, 0)
 
-var subp1p0 = new THREE.Vector3(0, 0, 0)
+// subpRandp0.subVectors(PRand, p0)
 
-subp1p0.subVectors(p1, p0)
+// var subp1p0 = new THREE.Vector3(0, 0, 0)
 
-var R = new THREE.Vector3()
-R.crossVectors(subpRandp0, subp1p0)
+// subp1p0.subVectors(p1, p0)
 
-R.normalize()
+// var R = new THREE.Vector3()
+// R.crossVectors(subpRandp0, subp1p0)
 
-var S = new THREE.Vector3()
-S.crossVectors(R, new THREE.Vector3().subVectors(p1, p0))
+// R.normalize()
 
-S.normalize()
+// var S = new THREE.Vector3()
+// S.crossVectors(R, new THREE.Vector3().subVectors(p1, p0))
 
-var divisions = 60
-var theta = 360/divisions
+// S.normalize()
 
-var radius = 4
+// var divisions = 60
+// var theta = 360/divisions
 
-var points = [p0]
+// var radius = 4
 
-var iTheta = 0
+// var points = [p0]
 
-for (var i=0; i<divisions; i++) {
-    iTheta = theta * i * (Math.PI / 180)
-    console.log(theta*i)
-    console.log(iTheta)
-    points.push(new THREE.Vector3(
-        p0.x + (radius * Math.cos(iTheta) * R.x) + (radius * Math.sin(iTheta) * S.x),
-        p0.y + (radius * Math.cos(iTheta) * R.y) + (radius * Math.sin(iTheta) * S.y),
-        p0.z + (radius * Math.cos(iTheta) * R.z) + (radius * Math.sin(iTheta) * S.z)
-        )
-    )
-}
+// var iTheta = 0
 
-var geom = new THREE.Geometry()
+// for (var i=0; i<divisions; i++) {
+//     iTheta = theta * i * (Math.PI / 180)
+//     console.log(theta*i)
+//     console.log(iTheta)
+//     points.push(new THREE.Vector3(
+//         p0.x + (radius * Math.cos(iTheta) * R.x) + (radius * Math.sin(iTheta) * S.x),
+//         p0.y + (radius * Math.cos(iTheta) * R.y) + (radius * Math.sin(iTheta) * S.y),
+//         p0.z + (radius * Math.cos(iTheta) * R.z) + (radius * Math.sin(iTheta) * S.z)
+//         )
+//     )
+// }
 
-geom.setFromPoints(points)
+// var geom = new THREE.Geometry()
 
-var face
-for (var i=0; i<divisions-1; i++) {
-    face = new THREE.Face3(0, i+1, i+2)
-    geom.faces.push(face)
-}
+// geom.setFromPoints(points)
 
-geom.faces.push(new THREE.Face3(0, divisions, 1))
+// var face
+// for (var i=0; i<divisions-1; i++) {
+//     face = new THREE.Face3(0, i+1, i+2)
+//     geom.faces.push(face)
+// }
 
-console.log(geom)
+// geom.faces.push(new THREE.Face3(0, divisions, 1))
 
-geom.computeBoundingBox()
-geom.computeBoundingSphere()
-geom.computeFaceNormals()
-geom.computeVertexNormals()
-geom.computeFlatVertexNormals()
-geom.computeMorphNormals()
+// console.log(geom)
 
-console.log(geom)
+
+
+// console.log(geom)
 
 // var geometry = new THREE.SphereBufferGeometry(5, 32, 32);
 // var material = new THREE.MeshLambertMaterial({color: 0xffffff});
@@ -99,22 +90,24 @@ console.log(geom)
 
 // scene.add( sphere );
 
-var wireframe = new THREE.WireframeGeometry( geom );
+// var wireframe = new THREE.WireframeGeometry( geom );
 
-var line = new THREE.LineSegments( wireframe );
-line.material.depthTest = false;
-line.material.opacity = 0.25;
-line.material.transparent = true;
+// var line = new THREE.LineSegments( wireframe );
+// line.material.depthTest = false;
+// line.material.opacity = 0.25;
+// line.material.transparent = true;
 
 scene.add(new THREE.AxisHelper())
 
-scene.add( line );
+// scene.add( line );
 
-var mat = new THREE.MeshBasicMaterial({color: 0x00ffff, side: THREE.DoubleSide});
+var mat = new THREE.MeshLambertMaterial({color: 0x00ffff, side: THREE.DoubleSide});
 
-var indicators = new THREE.Mesh(geom, mat)
+var cyl = new Cylinder(new THREE.Vector3(0, 0, 0), new THREE.Vector3(1, 0, 1), 2, 60, true)
 
-scene.add(indicators)
+var cylObj = cyl.makeCylinder(mat)
+
+scene.add(cylObj)
 
 camera.position.z = 15;
 

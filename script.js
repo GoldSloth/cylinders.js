@@ -103,7 +103,7 @@ scene.add(new THREE.AxisHelper())
 
 var mat = new THREE.MeshLambertMaterial({color: 0x00ffff, side: THREE.DoubleSide});
 
-var cyl = new Cylinder(new THREE.Vector3(0, 0, 0), new THREE.Vector3(1, 0, 1), 2, 60, true)
+var cyl = new Cylinder(new THREE.Vector3(0, 0, 0), new THREE.Vector3(10, 0, 10), 2, 6, true)
 
 var cylObj = cyl.makeCylinder(mat)
 

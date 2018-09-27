@@ -87,13 +87,16 @@ class Cylinder {
 
         this.geom.faces.push(new THREE.Face3(offset, this.segments + offset, offset+1))
 
-        offset += this.segments + 1
-
         return offset
     }
 
     _makeSides(offset) {
-        // Meh
+        for (var i=0; i<this.segments-1; i++) {
+            this.geom.faces.push(new THREE.Face3(i + 1, i + offset + 1, i + offset + 2))
+            this.geom.faces.push(new THREE.Face3(i + 2, i + 1, i + offset + 2))
+        }
+
+
         return offset
     }
 

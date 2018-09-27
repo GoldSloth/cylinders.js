@@ -60,18 +60,6 @@ class Cylinder {
     }
 
     _makeEnd(offset) {
-
-        this.geom.vertices.push(this.p0)
-
-        for (var i=0; i<this.points.length; i++) {
-            this.geom.vertices.push(this.points[i])
-        }
-
-        this.geom.vertices.push(this.p1)
-
-        for (var i=0; i<this.points.length; i++) {
-            this.geom.vertices.push((new THREE.Vector3(0, 0, 0)).addVectors(this.points[i], this.diff))
-        }
         
         for (var i=0; i<this.segments-1; i++) {
             this.geom.faces.push(new THREE.Face3(0, i + 1, i + 2))
@@ -106,10 +94,23 @@ class Cylinder {
     _makeGeometry() {
         this.geom = new THREE.Geometry()
         var offset = 0
+
+        this.geom.vertices.push(this.p0)
+
+        for (var i=0; i<this.points.length; i++) {
+            this.geom.vertices.push(this.points[i])
+        }
+
+        this.geom.vertices.push(this.p1)
+
+        for (var i=0; i<this.points.length; i++) {
+            this.geom.vertices.push((new THREE.Vector3(0, 0, 0)).addVectors(this.points[i], this.diff))
+        }
+
         if (this.closed) {
             offset = this._makeEnd(offset)
         }
-
+        
         offset = this._makeSides(offset)
         console.log(this.geom)
         this.geom.computeBoundingBox()

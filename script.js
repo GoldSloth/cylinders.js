@@ -36,11 +36,11 @@ var point2 = new THREE.Vector3(10, 0, 10)
 
 var radius = 2
 
-var segments = 6
+var segments = 20
 
 var cyl = new Cylinder(point1, point2, radius, segments, true)
 
-var cylObj = cyl.makeCylinder(mat, true)
+var cylObj = cyl.makeCylinder(mat, false)
 
 // -----------------------
 

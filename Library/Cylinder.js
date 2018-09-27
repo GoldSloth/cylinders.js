@@ -97,6 +97,9 @@ class Cylinder {
         }
 
 
+        this.geom.faces.push(new THREE.Face3(this.segments, 1, 1 + offset))
+        this.geom.faces.push(new THREE.Face3(this.segments, 1 + offset, this.segments + offset))
+
         return offset
     }
 
@@ -121,13 +124,26 @@ class Cylinder {
         return new THREE.Mesh(this.geom, material)
     }
 
-    makeCylinder(material) {
+    _constructWireFrame() {
+        this.wireFrameGeom = new THREE.WireframeGeometry(this.geom)
+        this.wireFrameLine = new THREE.LineSegments(this.wireFrameGeom)
+        this.wireFrameLine.material.depthTest = true;
+        this.wireFrameLine.material.transparent = true;
+        this.wireFrameLine.material.opacity = 1;
+
+        return this.wireFrameLine
+    }
+
+    makeCylinder(material, wireFrame) {
         this._makeP0P1Sub()
         this._makePRand()
         this._makePlaneVectors()
         this._makeDisk()
         this._makeGeometry()
-        return this._constructMesh(material)
+        if (wireFrame) {
+            return {"Mesh": this._constructMesh(material), "WireFrame": this._constructWireFrame()}
+        }
+        return {"Mesh": this._constructMesh(material)}
     }
 
 }

@@ -103,11 +103,13 @@ scene.add(new THREE.AxisHelper())
 
 var mat = new THREE.MeshLambertMaterial({color: 0x00ffff, side: THREE.DoubleSide});
 
-var cyl = new Cylinder(new THREE.Vector3(0, 0, 0), new THREE.Vector3(10, 0, 10), 2, 6, true)
+var cyl = new Cylinder(new THREE.Vector3(0, 0, 0), new THREE.Vector3(10, 0, 10), 2, 60, true)
 
-var cylObj = cyl.makeCylinder(mat)
+var cylObj = cyl.makeCylinder(mat, false)
 
-scene.add(cylObj)
+scene.add(cylObj.Mesh)
+
+// scene.add(cylObj.WireFrame)
 
 camera.position.z = 15;
 

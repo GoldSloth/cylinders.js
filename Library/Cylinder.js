@@ -56,7 +56,6 @@ class Cylinder {
         for (var i=0; i < this.segments; i++) {
             iTheta = theta * i * (Math.PI / 180)
             // For degrees -> Radian
-            console.log(i)
             points.push(new THREE.Vector3(
                 centre.x + (radius * Math.cos(iTheta) * this.plane.R.x) + (radius * Math.sin(iTheta) * this.plane.S.x),
                 centre.y + (radius * Math.cos(iTheta) * this.plane.R.y) + (radius * Math.sin(iTheta) * this.plane.S.y),

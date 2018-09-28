@@ -1,10 +1,14 @@
 class Cylinder {
-    constructor(p0, p1, radius, segments, closed) {
+    constructor(p0, p1, radius1, radius2, segments, closed) {
         this.p0 = p0
         this.p1 = p1
-        this.radius = radius
+        this.radius1 = radius1
+        this.radius2 = radius2
         this.segments = segments
         this.closed = closed
+
+
+        this.points = []
     }
 
     _makeP0P1Sub() {
@@ -43,24 +47,29 @@ class Cylinder {
         this.plane = {"R": R, "S": S}
     }
 
-    _makeDisk() {
+    _makeDisk(centre, radius) {
         var theta = 360 / this.segments
         var iTheta
-        this.points = []
+        
+        var points = []
+
         for (var i=0; i < this.segments; i++) {
             iTheta = theta * i * (Math.PI / 180)
             // For degrees -> Radian
-            this.points.push(new THREE.Vector3(
-                this.p0.x + (this.radius * Math.cos(iTheta) * this.plane.R.x) + (this.radius * Math.sin(iTheta) * this.plane.S.x),
-                this.p0.y + (this.radius * Math.cos(iTheta) * this.plane.R.y) + (this.radius * Math.sin(iTheta) * this.plane.S.y),
-                this.p0.z + (this.radius * Math.cos(iTheta) * this.plane.R.z) + (this.radius * Math.sin(iTheta) * this.plane.S.z)
+            console.log(i)
+            points.push(new THREE.Vector3(
+                centre.x + (radius * Math.cos(iTheta) * this.plane.R.x) + (radius * Math.sin(iTheta) * this.plane.S.x),
+                centre.y + (radius * Math.cos(iTheta) * this.plane.R.y) + (radius * Math.sin(iTheta) * this.plane.S.y),
+                centre.z + (radius * Math.cos(iTheta) * this.plane.R.z) + (radius * Math.sin(iTheta) * this.plane.S.z)
                 )
             )
         }
+
+        this.points.push(points)
     }
 
     _makeEnd(offset) {
-        
+    
         for (var i=0; i<this.segments-1; i++) {
             this.geom.faces.push(new THREE.Face3(0, i + 1, i + 2))
         }
@@ -85,8 +94,8 @@ class Cylinder {
         }
 
 
-        this.geom.faces.push(new THREE.Face3(this.segments, 1, 1 + offset))
-        this.geom.faces.push(new THREE.Face3(this.segments, 1 + offset, this.segments + offset))
+        this.geom.faces.push(new THREE.Face3(1, this.segments, 1 + offset))
+        this.geom.faces.push(new THREE.Face3(this.segments, this.segments + offset, 1 + offset))
 
         return offset
     }
@@ -97,14 +106,14 @@ class Cylinder {
 
         this.geom.vertices.push(this.p0)
 
-        for (var i=0; i<this.points.length; i++) {
-            this.geom.vertices.push(this.points[i])
+        for (var i=0; i<this.points[0].length; i++) {
+            this.geom.vertices.push(this.points[0][i])
         }
 
         this.geom.vertices.push(this.p1)
 
-        for (var i=0; i<this.points.length; i++) {
-            this.geom.vertices.push((new THREE.Vector3(0, 0, 0)).addVectors(this.points[i], this.diff))
+        for (var i=0; i<this.points[1].length; i++) {
+            this.geom.vertices.push(this.points[1][i])
         }
 
         if (this.closed) {
@@ -115,9 +124,9 @@ class Cylinder {
         console.log(this.geom)
         this.geom.computeBoundingBox()
         this.geom.computeBoundingSphere()
-        this.geom.computeFaceNormals()
+        // this.geom.computeFaceNormals()
         this.geom.computeVertexNormals()
-        this.geom.computeFlatVertexNormals()
+        // this.geom.computeFlatVertexNormals()
         this.geom.computeMorphNormals()
     }
 
@@ -139,7 +148,9 @@ class Cylinder {
         this._makeP0P1Sub()
         this._makePRand()
         this._makePlaneVectors()
-        this._makeDisk()
+        this._makeDisk(this.p0, this.radius1, 0)
+        this._makeDisk(this.p1, this.radius2, 1)
+        console.log(this.points)
         this._makeGeometry()
         if (wireFrame) {
             return {"Mesh": this._constructMesh(material), "WireFrame": this._constructWireFrame()}

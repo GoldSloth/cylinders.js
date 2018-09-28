@@ -26,7 +26,7 @@ var axesHelper = new THREE.AxesHelper(1)
 
 scene.add(axesHelper)
 
-var mat = new THREE.MeshLambertMaterial({color: 0x00ffff, side: THREE.DoubleSide});
+var mat = new THREE.MeshLambertMaterial({color: 0x00ffff, side: THREE.DoubleSide, flatShading: false});
 
 // -----------------------
 
@@ -34,11 +34,12 @@ var point1 = new THREE.Vector3(3, 13, 3)
 
 var point2 = new THREE.Vector3(10, 0, 10)
 
-var radius = 2
+var radius1 = 2
+var radius2 = 10
 
-var segments = 20
+var segments = 100
 
-var cyl = new Cylinder(point1, point2, radius, segments, true)
+var cyl = new Cylinder(point1, point2, radius1, radius2, segments, true)
 
 var cylObj = cyl.makeCylinder(mat, false)
 

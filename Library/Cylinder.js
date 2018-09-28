@@ -120,7 +120,7 @@ class Cylinder {
         }
         
         offset = this._makeSides(offset)
-        console.log(this.geom)
+        // console.log(this.geom)
         this.geom.computeBoundingBox()
         this.geom.computeBoundingSphere()
         // this.geom.computeFaceNormals()
@@ -149,7 +149,7 @@ class Cylinder {
         this._makePlaneVectors()
         this._makeDisk(this.p0, this.radius1, 0)
         this._makeDisk(this.p1, this.radius2, 1)
-        console.log(this.points)
+        // console.log(this.points)
         this._makeGeometry()
         if (wireFrame) {
             return {"Mesh": this._constructMesh(material), "WireFrame": this._constructWireFrame()}

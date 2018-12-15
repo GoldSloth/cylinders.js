@@ -144,17 +144,21 @@ class Cylinder {
     }
 
     makeCylinder(material, wireFrame) {
+        this.makeGCylinder()
+        if (wireFrame) {
+            return {"Mesh": this._constructMesh(material), "WireFrame": this._constructWireFrame()}
+        }
+        return {"Mesh": this._constructMesh(material)}
+    }
+
+    makeGCylinder() {
         this._makeP0P1Sub()
         this._makePRand()
         this._makePlaneVectors()
         this._makeDisk(this.p0, this.radius1, 0)
         this._makeDisk(this.p1, this.radius2, 1)
-        // console.log(this.points)
         this._makeGeometry()
-        if (wireFrame) {
-            return {"Mesh": this._constructMesh(material), "WireFrame": this._constructWireFrame()}
-        }
-        return {"Mesh": this._constructMesh(material)}
+        return this.geom
     }
 
 }
